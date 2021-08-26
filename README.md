@@ -1,0 +1,2 @@
+# R5T.T0045
+ICompilationUnitGenerator and other Roslyn-based code generation extension method bases and extensions.
