@@ -1,0 +1,8 @@
+R5T.T0045 - Basic extensions to ICompilationUnitGenerator and other Roslyn-based code generation extension method bases.
+
+Basic extensions are those that rely solely on .NET Standard, Magyar, and Roslyn-based functionality.
+
+For example, creating a class instead of creating a default console entry-point Program class.
+
+Goals
+

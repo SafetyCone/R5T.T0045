@@ -1,0 +1,7 @@
+R5T.T0045 - Common extensions to ICompilationUnitGenerator and other Roslyn-based code generation extension method bases.
+
+Common extensions can rely on any functionality, but are of common, rather than specific use (like creating a default console application Program class, instead of specialized multi-stage startup, program-as-a-service, console application Program class).
+
+
+Goals
+

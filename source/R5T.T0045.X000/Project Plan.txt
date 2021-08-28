@@ -1,0 +1,4 @@
+R5T.T0045 - Uncategorized extensions to ICompilationUnitGenerator and other Roslyn-based code generation extension method bases.
+
+Goals
+
