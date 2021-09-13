@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using R5T.T0045;
@@ -21,6 +20,12 @@ namespace System
                 ;
 
             return output;
+        }
+
+        public static ClassDeclarationSyntax GetDefaultClass1(this IClassGenerator _)
+        {
+            var defaultClass1 = _.GetPublicClass(Instances.ClassName.Class1());
+            return defaultClass1;
         }
     }
 }

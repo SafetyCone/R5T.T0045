@@ -49,6 +49,9 @@ namespace System
             return output;
         }
 
+        /// <summary>
+        /// Allows directly creating code in a namespace (by handling the compilation unit creation), without adding the standard "using System" clause.
+        /// </summary>
         public static CompilationUnitSyntax InNewNamespaceWithoutUsingSystem(this ICompilationUnitGenerator _,
             string namespaceName,
             ModifierSynchronousWith<NamespaceDeclarationSyntax, NamespaceNameSet> namespaceModifier = default)
@@ -66,6 +69,9 @@ namespace System
             return output;
         }
 
+        /// <summary>
+        /// Allows directly creating code in a namespace (by handling the compilation unit creation).
+        /// </summary>
         public static CompilationUnitSyntax InNewNamespace(this ICompilationUnitGenerator _,
             string namespaceName,
             ModifierSynchronousWith<NamespaceDeclarationSyntax, NamespaceNameSet> namespaceModifier = default)

@@ -38,5 +38,16 @@ namespace System
             var output = @namespace.AddPublicClass(className, Instances.Indentation.Class(), modifier);
             return output;
         }
+
+        public static NamespaceDeclarationSyntax AddPublicInterface(this NamespaceDeclarationSyntax @namespace,
+            string interfaceName,
+            ModifierSynchronous<InterfaceDeclarationSyntax> modifier = default)
+        {
+            var @interface = Instances.InterfaceGenerator.GetPublicInterface(
+                interfaceName);
+
+            var output = @namespace.AddInterface(@interface, modifier);
+            return output;
+        }
     }
 }

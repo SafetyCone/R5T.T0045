@@ -3,6 +3,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using R5T.L0011.T003;
 using R5T.T0045;
 
 using Instances = R5T.T0045.X001.Instances;
@@ -32,6 +33,38 @@ namespace System
             return output;
         }
 
+        public static ClassDeclarationSyntax GetClass(this IClassGenerator _,
+            string className,
+            ClassSignatureModel classSignatureModel,
+            string baseTypesExpression = default)
+        {
+            var classSignature = Instances.SignatureModel.GetSignature(classSignatureModel);
+
+            var baseTypesExpressionToken = StringHelper.IsNotNullOrEmpty(baseTypesExpression)
+                ? $": {baseTypesExpression}"
+                : Instances.Syntax.None()
+                ;
+
+            var text = $"{classSignature.TrimEnd()} class {className} {baseTypesExpressionToken}";
+
+            var output = _.GetClassFromText(text);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetPrivateClass(this IClassGenerator _,
+            string className,
+            string baseTypesExpression = default)
+        {
+            var signatureModel = Instances.SignatureModel.GetPrivateClassDefault();
+
+            var output = _.GetClass(
+                className,
+                signatureModel,
+                baseTypesExpression);
+
+            return output;
+        }
+
         public static ClassDeclarationSyntax GetPrivateStaticClass(this IClassGenerator _,
             string className)
         {
@@ -57,6 +90,29 @@ namespace System
             var text = $"public class {className}";
 
             var output = _.GetClassFromText(text);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetPublicClass(this IClassGenerator _,
+            string className,
+            string baseTypesExpression,
+            SyntaxTriviaList indentation)
+        {
+            var text = $"public class {className} : {baseTypesExpression}";
+
+            var output = _.GetClassFromText(indentation, text);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetPublicClass(this IClassGenerator _,
+            string className,
+            string baseTypesExpression)
+        {
+            var output = _.GetPublicClass(
+                className,
+                baseTypesExpression,
+                Instances.Indentation.Class());
+
             return output;
         }
 

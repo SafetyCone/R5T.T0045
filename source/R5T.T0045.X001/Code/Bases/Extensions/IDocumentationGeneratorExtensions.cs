@@ -56,10 +56,28 @@ namespace System
             return output;
         }
 
+        public static DocumentationCommentTriviaSyntax GetInterfaceDocumentationComment(this IDocumentationGenerator _,
+            string documentationLineText)
+        {
+            var indentation = Instances.Indentation.Interface();
+
+            var output = _.GetDocumentationComment(documentationLineText, indentation);
+            return output;
+        }
+
         public static DocumentationCommentTriviaSyntax GetMethodDocumentationComment(this IDocumentationGenerator _,
             string documentationLineText)
         {
             var indentation = Instances.Indentation.Method();
+
+            var output = _.GetDocumentationComment(documentationLineText, indentation);
+            return output;
+        }
+
+        public static DocumentationCommentTriviaSyntax GetTypeDocumentationComment(this IDocumentationGenerator _,
+            string documentationLineText)
+        {
+            var indentation = Instances.Indentation.Type();
 
             var output = _.GetDocumentationComment(documentationLineText, indentation);
             return output;

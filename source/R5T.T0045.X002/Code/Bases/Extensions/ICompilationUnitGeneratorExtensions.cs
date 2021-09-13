@@ -15,6 +15,38 @@ namespace System
 {
     public static class ICompilationUnitGeneratorExtensions
     {
+        public static CompilationUnitSyntax GetDefaultClass1(this ICompilationUnitGenerator _,
+            string namespaceName)
+        {
+            var compilationUnit = _.InNewNamespace(
+                namespaceName,
+                (xNamespace, xNamespaceNames) =>
+                {
+                    var defaultClass1 = Instances.ClassGenerator.GetDefaultClass1();
+
+                    var outputNamespace = xNamespace.AddClass(defaultClass1);
+                    return outputNamespace;
+                });
+
+            return compilationUnit;
+        }
+
+        public static CompilationUnitSyntax GetDefaultInterface1(this ICompilationUnitGenerator _,
+            string namespaceName)
+        {
+            var compilationUnit = _.InNewNamespace(
+                namespaceName,
+                (xNamespace, xNamespaceNames) =>
+                {
+                    var defaultInterface1 = Instances.InterfaceGenerator.GetDefaultInterface1();
+
+                    var outputNamespace = xNamespace.AddInterface(defaultInterface1);
+                    return outputNamespace;
+                });
+
+            return compilationUnit;
+        }
+
         public static CompilationUnitSyntax GetDefaultProgram(this ICompilationUnitGenerator _,
             string namespaceName)
         {
@@ -22,8 +54,6 @@ namespace System
                 namespaceName,
                 (xNamespace, xNamespaceNames) =>
                 {
-                    
-
                     var defaultProgramClass = Instances.ClassGenerator.GetDefaultProgram();
 
                     var outputNamespace = xNamespace.AddClass(defaultProgramClass);
