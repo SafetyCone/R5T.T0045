@@ -14,8 +14,8 @@ namespace System
     public static class IClassGeneratorExtensions
     {
         public static ClassDeclarationSyntax GetClassFromText(this IClassGenerator _,
-            SyntaxTriviaList indentation,
-            string text)
+            string text,
+            SyntaxTriviaList indentation)
         {
             var output = Instances.SyntaxFactory.ParseClassDeclaration(text)
                 .WithIndentation(indentation)
@@ -29,7 +29,7 @@ namespace System
         public static ClassDeclarationSyntax GetClassFromText(this IClassGenerator _,
             string text)
         {
-            var output = _.GetClassFromText(Instances.Indentation.Class(), text);
+            var output = _.GetClassFromText(text, Instances.Indentation.Class());
             return output;
         }
 
@@ -80,7 +80,7 @@ namespace System
         {
             var text = $"public class {className}";
 
-            var output = _.GetClassFromText(indentation, text);
+            var output = _.GetClassFromText(text, indentation);
             return output;
         }
 
@@ -100,7 +100,7 @@ namespace System
         {
             var text = $"public class {className} : {baseTypesExpression}";
 
-            var output = _.GetClassFromText(indentation, text);
+            var output = _.GetClassFromText(text, indentation);
             return output;
         }
 
