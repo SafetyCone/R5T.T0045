@@ -3,6 +3,7 @@
 using R5T.L0011.T001;
 using R5T.L0011.T002;
 using R5T.L0011.T003;
+using R5T.T0034;
 using R5T.T0036;
 using R5T.T0035;
 
@@ -20,5 +21,6 @@ namespace R5T.T0045.X001
         public static ISignatureModel SignatureModel { get; } = L0011.T003.SignatureModel.Instance;
         public static ISyntax Syntax { get; } = L0011.T002.Syntax.Instance;
         public static ISyntaxFactory SyntaxFactory { get; } = L0011.T001.SyntaxFactory.Instance;
+        public static ITypeName TypeName { get; } = T0034.TypeName.Instance;
     }
 }

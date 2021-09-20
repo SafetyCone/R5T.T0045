@@ -11,6 +11,17 @@ namespace System
 {
     public static class IPropertyGeneratorExtensions
     {
+        public static PropertyDeclarationSyntax GetStaticPropertyExpressionBodiedMember(this IPropertyGenerator _,
+            string typeName,
+            string propertyName,
+            string expressionBody)
+        {
+            var text = $"public static {typeName} {propertyName} => {expressionBody};";
+
+            var output = _.GetPropertyFromText(text);
+            return output;
+        }
+
         public static PropertyDeclarationSyntax GetPropertyFromText(this IPropertyGenerator _,
             string text)
         {

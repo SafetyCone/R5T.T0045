@@ -124,5 +124,14 @@ namespace System
             var output = _.GetClassFromText(text);
             return output;
         }
+
+        public static ClassDeclarationSyntax GetExtensionsClassOf(this IClassGenerator _,
+            string typeName)
+        {
+            var extensionClassTypeName = Instances.TypeName.GetExtensionsOfTypeNameTypeName(typeName);
+
+            var output = _.GetPublicStaticClass(extensionClassTypeName);
+            return output;
+        }
     }
 }
