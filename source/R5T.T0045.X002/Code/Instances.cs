@@ -14,11 +14,13 @@ namespace R5T.T0045.X002
         public static IClassGenerator ClassGenerator { get; } = T0045.ClassGenerator.Instance;
         public static IClassName ClassName { get; } = T0036.ClassName.Instance;
         public static ICompilationUnitGenerator CompilationUnitGenerator { get; } = T0045.CompilationUnitGenerator.Instance;
+        public static ICompilationUnitOperator CompilationUnitOperator { get; } = T0045.CompilationUnitOperator.Instance;
         public static IIndentation Indentation { get; } = T0036.Indentation.Instance;
         public static IInterfaceGenerator InterfaceGenerator { get; } = T0045.InterfaceGenerator.Instance;
         public static IInterfaceName InterfaceName { get; } = T0036.InterfaceName.Instance;
         public static IMethodGenerator MethodGenerator { get; } = T0045.MethodGenerator.Instance;
         public static IMethodName MethodName { get; } = T0036.MethodName.Instance;
+        public static INamespacedTypeName NamespacedTypeName { get; } = T0034.NamespacedTypeName.Instance;
         public static INamespaceGenerator NamespaceGenerator { get; } = T0045.NamespaceGenerator.Instance;
         public static INamespaceName NamespaceName { get; } = T0035.NamespaceName.Instance;
         public static IParameterGenerator ParameterGenerator { get; } = T0045.ParameterGenerator.Instance;

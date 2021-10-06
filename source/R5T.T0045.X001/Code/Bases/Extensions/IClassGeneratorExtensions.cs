@@ -125,12 +125,30 @@ namespace System
             return output;
         }
 
+        public static ClassDeclarationSyntax GetPublicStaticPartialClass(this IClassGenerator _,
+            string className)
+        {
+            var text = $"public static partial class {className}";
+
+            var output = _.GetClassFromText(text);
+            return output;
+        }
+
         public static ClassDeclarationSyntax GetExtensionsClassOf(this IClassGenerator _,
             string typeName)
         {
             var extensionClassTypeName = Instances.TypeName.GetExtensionsOfTypeNameTypeName(typeName);
 
             var output = _.GetPublicStaticClass(extensionClassTypeName);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetExtensionsPartialClassOf(this IClassGenerator _,
+            string typeName)
+        {
+            var extensionClassTypeName = Instances.TypeName.GetExtensionsOfTypeNameTypeName(typeName);
+
+            var output = _.GetPublicStaticPartialClass(extensionClassTypeName);
             return output;
         }
     }
