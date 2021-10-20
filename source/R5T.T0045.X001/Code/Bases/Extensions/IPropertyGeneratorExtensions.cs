@@ -22,6 +22,17 @@ namespace System
             return output;
         }
 
+        public static PropertyDeclarationSyntax GetStaticPropertyInitialized(this IPropertyGenerator _,
+            string typeName,
+            string propertyName,
+            string initializationExpression)
+        {
+            var text = $"public static {typeName} {propertyName} {{ get; }} = {initializationExpression};";
+
+            var output = _.GetPropertyFromText(text);
+            return output;
+        }
+
         public static PropertyDeclarationSyntax GetPropertyFromText(this IPropertyGenerator _,
             string text)
         {

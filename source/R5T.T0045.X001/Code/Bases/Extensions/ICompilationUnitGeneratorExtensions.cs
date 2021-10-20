@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using R5T.L0011.T004;
@@ -15,25 +13,6 @@ namespace System
 {
     public static class ICompilationUnitGeneratorExtensions
     {
-        public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit,
-            string namespaceName,
-            ModifierSynchronousWith<NamespaceDeclarationSyntax, NamespaceNameSet> namespaceModifier = default)
-        {
-            var newNamespace = Instances.NamespaceGenerator.GetNamespace(Instances.Indentation.Namespace(), namespaceName);
-
-            var namespaceNames = NamespaceNameSet.New();
-
-            var @namespace = newNamespace.ModifyWith(namespaceModifier, namespaceNames);
-
-            var usingDirectiveBlocks = namespaceNames.GetBlocks();
-
-            var output = compilationUnit
-                .AddMembers(@namespace)
-                .AddUsings(usingDirectiveBlocks);
-
-            return output;
-        }
-
         public static CompilationUnitSyntax NewCompilationUnit(this ICompilationUnitGenerator _)
         {
             var output = Instances.SyntaxFactory.CompilationUnit();
