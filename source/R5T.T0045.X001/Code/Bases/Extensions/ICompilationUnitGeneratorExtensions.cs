@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -26,6 +27,26 @@ namespace System
 
             var output = compilationUnit.ModifyWith(modifier);
             return output;
+        }
+
+        public static async Task<CompilationUnitSyntax> InNewCompilationUnit(this ICompilationUnitGenerator _,
+            Func<CompilationUnitSyntax, Task<CompilationUnitSyntax>> compilationUnitAction = default)
+        {
+            var compilationUnit = _.NewCompilationUnit();
+
+            var output = await compilationUnit.ModifyWith(compilationUnitAction);
+            return output;
+        }
+
+        public static async Task InNewCompilationUnit(this ICompilationUnitGenerator _,
+            string codeFilePath,
+            Func<CompilationUnitSyntax, Task<CompilationUnitSyntax>> compilationUnitAction = default)
+        {
+            var compilationUnit = _.NewCompilationUnit();
+
+            var outputCompilationUnit = await compilationUnit.ModifyWith(compilationUnitAction);
+
+            await outputCompilationUnit.WriteTo(codeFilePath);
         }
 
         /// <summary>

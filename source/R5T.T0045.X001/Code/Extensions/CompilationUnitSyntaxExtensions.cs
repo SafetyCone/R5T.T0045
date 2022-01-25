@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+using R5T.Magyar;
 
 using R5T.L0011.T004;
 
@@ -11,6 +15,12 @@ namespace System
 {
     public static class CompilationUnitSyntaxExtensions
     {
+        public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit, NamespaceDeclarationSyntax @namespace)
+        {
+            var output = compilationUnit.AddMembers(@namespace);
+            return output;
+        }
+
         public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit,
             string namespaceName,
             ModifierSynchronousWith<NamespaceDeclarationSyntax, NamespaceNameSet> namespaceModifier = default)
@@ -28,6 +38,38 @@ namespace System
                 .AddUsings(usingDirectiveBlocks);
 
             return output;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="WasFound{T}"/> since after modifying the returned <see cref="NamespaceDeclarationSyntax"/> it can be important to know whether to add or replace the namespace in the compilation unit based on whether it was found.
+        /// </summary>
+        public static WasFound<NamespaceDeclarationSyntax> GetNamespaceOrNew(this CompilationUnitSyntax compilationUnit,
+            string namespaceName)
+        {
+            var namespaceWasFound = compilationUnit.HasNamespace(namespaceName);
+
+            var namespaceOrNewNamespaceIfNotFoud = namespaceWasFound.OrIfNotFound(
+                () => Instances.NamespaceGenerator.GetNamespace(Instances.Indentation.Namespace(), namespaceName));
+
+            return namespaceOrNewNamespaceIfNotFoud;
+        }
+
+        public static async Task<CompilationUnitSyntax> InNamespace(this CompilationUnitSyntax compilationUnit,
+            string namespaceName,
+            Func<NamespaceDeclarationSyntax, Task<NamespaceDeclarationSyntax>> namespaceAction = default)
+        {
+            var namespaceWasFound = compilationUnit.GetNamespaceOrNew(namespaceName);
+
+            var @namespace = namespaceWasFound.Result;
+
+            var modifiedNamespace = await @namespace.ModifyWith(namespaceAction);
+
+            var outputCompilationUnit = namespaceWasFound
+                ? compilationUnit.ReplaceNode(@namespace, modifiedNamespace)
+                : compilationUnit.AddNamespace(modifiedNamespace)
+                ;
+
+            return outputCompilationUnit;
         }
     }
 }

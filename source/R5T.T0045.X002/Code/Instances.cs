@@ -5,6 +5,7 @@ using R5T.L0011.T002;
 using R5T.T0034;
 using R5T.T0035;
 using R5T.T0036;
+using R5T.T0060;
 
 
 namespace R5T.T0045.X002
@@ -26,6 +27,7 @@ namespace R5T.T0045.X002
         public static IParameterGenerator ParameterGenerator { get; } = T0045.ParameterGenerator.Instance;
         public static IParameterName ParameterName { get; } = T0036.ParameterName.Instance;
         public static IStatementGenerator StatementGenerator { get; } = T0045.StatementGenerator.Instance;
+        public static ISelector Selector { get; } = T0060.Selector.Instance;
         public static ISyntax Syntax { get; } = L0011.T002.Syntax.Instance;
         public static ISyntaxFactory SyntaxFactory { get; } = L0011.T001.SyntaxFactory.Instance;
         public static ITypeName TypeName { get; } = T0034.TypeName.Instance;

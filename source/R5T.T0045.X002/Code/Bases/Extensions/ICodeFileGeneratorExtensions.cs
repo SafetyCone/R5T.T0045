@@ -16,7 +16,7 @@ namespace System
             var class1CompilationUnit = Instances.CompilationUnitGenerator.GetDefaultClass1(
                 namespaceName);
 
-            class1CompilationUnit.WriteTo(filePath);
+            class1CompilationUnit.WriteToSynchronous(filePath);
         }
 
         public static void CreateDefaultInterface1(this ICodeFileGenerator _,
@@ -26,7 +26,7 @@ namespace System
             var inteface1CompilationUnit = Instances.CompilationUnitGenerator.GetDefaultInterface1(
                 namespaceName);
 
-            inteface1CompilationUnit.WriteTo(filePath);
+            inteface1CompilationUnit.WriteToSynchronous(filePath);
         }
 
         public static void CreateDefaultProgram(this ICodeFileGenerator _,
@@ -36,7 +36,7 @@ namespace System
             var programCompilationUnit = Instances.CompilationUnitGenerator.GetDefaultProgram(
                 namespaceName);
 
-            programCompilationUnit.WriteTo(filePath);
+            programCompilationUnit.WriteToSynchronous(filePath);
         }
     }
 }

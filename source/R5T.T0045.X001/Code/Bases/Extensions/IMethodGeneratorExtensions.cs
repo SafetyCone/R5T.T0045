@@ -54,22 +54,98 @@ namespace System
         }
 
         /// <summary>
-        /// Chooses <see cref="GetMethodDeclarationFromTextWithNewLineIndentationOnly(IMethodGenerator, string)"/> as the default.
+        /// Trims text and sets standard open and close brace trivia.
         /// </summary>
-        public static MethodDeclarationSyntax GetMethodDeclarationFromText(this IMethodGenerator _,
+        public static MethodDeclarationSyntax GetMethodDeclarationFromText_TrimAndWithStandardBraceTrivia(this IMethodGenerator _,
             string text)
         {
-            var output = _.GetMethodDeclarationFromTextWithNewLineIndentationOnly(text);
+            var output = Instances.SyntaxFactory.ParseMethodDeclaration(text.Trim())
+                .WithStandardOpenAndCloseBraceTrivia()
+                ;
+
             return output;
         }
 
+        /// <summary>
+        /// Ensures that all trailing trivia is moved to leading trivia.
+        /// Builds on trimming text and setting standard open and close brace trivia.
+        /// </summary>
+        public static MethodDeclarationSyntax GetMethodDeclarationFromText_StandardLeadingTrivia(this IMethodGenerator _,
+            string text)
+        {
+            var output = _.GetMethodDeclarationFromText_TrimAndWithStandardBraceTrivia(text)
+                .MoveDescendantTrailingTriviaToLeadingTrivia()
+                ;
+
+            return output;
+        }
+
+        /// <summary>
+        /// Standard method to get a method declaration from text, with 
+        /// Includes trimming, standard brace trivia, ensuring all trivia is leading trivia, and 
+        /// </summary>
         public static MethodDeclarationSyntax GetMethodDeclarationFromText(this IMethodGenerator _,
             string text,
             SyntaxTriviaList indentation)
         {
-            var output = Instances.SyntaxFactory.ParseMethodDeclaration(text)
-                .Indent(indentation)
+            var output = _.GetMethodDeclarationFromText_TrimAndWithStandardBraceTrivia(text)
+                .MoveDescendantTrailingTriviaToLeadingTrivia()
+                .IndentBlock(indentation)
                 ;
+
+            return output;
+        }
+
+        public static MethodDeclarationSyntax GetMethodDeclarationFromText_WithoutIndentation(this IMethodGenerator _,
+            string text)
+        {
+            var output = _.GetMethodDeclarationFromText(
+                text,
+                Instances.Indentation.None());
+
+            return output;
+        }
+
+        /// <summary>
+        /// Standard method to get a method declaration from text.
+        /// Includes trimming, standard brace trivia, ensuring all trivia is leading trivia, and with the standard method indentation.
+        /// </summary>
+        public static MethodDeclarationSyntax GetMethodDeclarationFromText(this IMethodGenerator _,
+            string text)
+        {
+            var output = _.GetMethodDeclarationFromText(
+                text,
+                Instances.Indentation.Method());
+
+            return output;
+        }
+
+        public static ConstructorDeclarationSyntax GetConstructorDeclarationFromText_TrimAndWithStandardBraceTrivia(this IMethodGenerator _,
+            string text)
+        {
+            var output = _.GetConstructorDeclarationFromText(
+                text.Trim())
+                .WithStandardOpenAndCloseBraceTrivia();
+
+            return output;
+        }
+
+        public static ConstructorDeclarationSyntax GetConstructorDeclarationFromTextWithIndentation(this IMethodGenerator _,
+            string text,
+            SyntaxTriviaList indentation)
+        {
+            var output = _.GetConstructorDeclarationFromText_TrimAndWithStandardBraceTrivia(text)
+                .IndentBlock(indentation);
+
+            return output;
+        }
+
+        public static ConstructorDeclarationSyntax GetConstructorDeclarationFromTextWithIndentation(this IMethodGenerator _,
+            string text)
+        {
+            var output = _.GetConstructorDeclarationFromTextWithIndentation(
+                text,
+                Instances.Indentation.Method());
 
             return output;
         }
