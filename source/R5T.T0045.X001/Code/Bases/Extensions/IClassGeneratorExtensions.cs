@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using R5T.L0011.T003;
 using R5T.T0045;
+using R5T.T0045.X001;
 
 using Instances = R5T.T0045.X001.Instances;
 
@@ -17,7 +18,7 @@ namespace System
             string text,
             SyntaxTriviaList indentation)
         {
-            var output = Instances.SyntaxFactory.ParseClassDeclaration(text)
+            var output = _.GetClassFromText_Trim(text)
                 .WithIndentation(indentation)
                 .WithOpenBrace(indentation)
                 .WithCloseBrace(indentation)
@@ -149,6 +150,22 @@ namespace System
             var extensionClassTypeName = Instances.TypeName.GetExtensionsOfTypeNameTypeName(typeName);
 
             var output = _.GetPublicStaticPartialClass(extensionClassTypeName);
+            return output;
+        }
+    }
+}
+
+
+namespace R5T.T0045.X001
+{
+    public static class IClassGeneratorExtensions
+    {
+        public static ClassDeclarationSyntax GetClassFromText_Trim(this IClassGenerator _,
+            string text)
+        {
+            var trimmedText = text.Trim();
+
+            var output = Instances.SyntaxFactory.ParseClassDeclaration(trimmedText);
             return output;
         }
     }
