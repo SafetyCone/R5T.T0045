@@ -54,6 +54,19 @@ namespace System
         }
 
         /// <summary>
+        /// Trims the input text.
+        /// </summary>
+        public static MethodDeclarationSyntax GetMethodDeclarationFromText_TrimOnly(this IMethodGenerator _,
+            string text)
+        {
+            var output = Instances.SyntaxFactory.ParseMethodDeclaration(
+                text.Trim())
+                ;
+
+            return output;
+        }
+
+        /// <summary>
         /// Trims text and sets standard open and close brace trivia.
         /// </summary>
         public static MethodDeclarationSyntax GetMethodDeclarationFromText_TrimAndWithStandardBraceTrivia(this IMethodGenerator _,

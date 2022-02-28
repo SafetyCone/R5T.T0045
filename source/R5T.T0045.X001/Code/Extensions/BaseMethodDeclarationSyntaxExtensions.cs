@@ -11,9 +11,8 @@ namespace System
         public static TBaseMethod WithStandardOpenAndCloseBraceTrivia<TBaseMethod>(this TBaseMethod method)
             where TBaseMethod : BaseMethodDeclarationSyntax
         {
-            var hasMethodBody = method.HasBody();
-
             // Only do work if there is a method body to do work on.
+            var hasMethodBody = method.HasBody();
             if (!hasMethodBody)
             {
                 return method;
