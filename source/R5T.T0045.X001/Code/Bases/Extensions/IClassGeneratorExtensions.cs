@@ -34,6 +34,20 @@ namespace System
             return output;
         }
 
+        public static ClassDeclarationSyntax GetClassFromText2_WithoutEnsuringBraces(this IClassGenerator _,
+            string text)
+        {
+            var output = _.GetClassFromText_Trim(text);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetClassFromText2(this IClassGenerator _,
+            string text)
+        {
+            var output = _.GetClassFromText_Trim(text);
+            return output;
+        }
+
         public static ClassDeclarationSyntax GetClass(this IClassGenerator _,
             string className,
             ClassSignatureModel classSignatureModel,
@@ -123,6 +137,18 @@ namespace System
             var text = $"public static class {className}";
 
             var output = _.GetClassFromText(text);
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetPublicStaticClass2(this IClassGenerator _,
+            string className)
+        {
+            var text = $"public static class {className}";
+
+            var output = _.GetClassFromText2(text)
+                .EnsureHasBraces()
+                ;
+
             return output;
         }
 

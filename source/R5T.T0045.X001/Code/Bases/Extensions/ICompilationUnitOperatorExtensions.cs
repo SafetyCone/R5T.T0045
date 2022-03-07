@@ -27,6 +27,15 @@ namespace System
             return _.LoadCompilationUnit(filePath);
         }
 
+        public static async Task<CompilationUnitSyntax> LoadAndStandardizeToLeadingTrivia(this ICompilationUnitOperator _,
+            string filePath)
+        {
+            var compilationUnit = await _.LoadCompilationUnit(filePath);
+
+            var outputCompilationUnit = compilationUnit.MoveDescendantTrailingTriviaToLeadingTrivia();
+            return outputCompilationUnit;
+        }
+
         public static async Task Modify(this ICompilationUnitOperator _,
             string codeFilePath,
             Func<CompilationUnitSyntax, Task<CompilationUnitSyntax>> compilationUnitModifierAction = default)
@@ -55,7 +64,7 @@ namespace System
             var codeFileExists = Instances.FileSystemOperator.FileExists(codeFilePath);
 
             var inputCompilationUnit = codeFileExists
-                ? await _.Load(codeFilePath)
+                ? await _.LoadAndStandardizeToLeadingTrivia(codeFilePath)
                 : await initialCompilationUnitModifierAction(
                     Instances.CompilationUnitGenerator.NewCompilationUnit())
                 ;
@@ -64,6 +73,8 @@ namespace System
             // This helps in debugging, to see the actual initial state of the compilation unit.
             if(!codeFileExists)
             {
+                Instances.FileSystemOperator.EnsureDirectoryForFileExists(codeFilePath);
+
                 await _.Save(codeFilePath, inputCompilationUnit);
             }
 

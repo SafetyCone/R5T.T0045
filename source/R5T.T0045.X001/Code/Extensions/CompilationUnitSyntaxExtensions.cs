@@ -15,17 +15,33 @@ namespace System
 {
     public static class CompilationUnitSyntaxExtensions
     {
-        public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit, NamespaceDeclarationSyntax @namespace)
+        public static CompilationUnitSyntax AddNamespaceWithoutLeadingSeparation(this CompilationUnitSyntax compilationUnit, NamespaceDeclarationSyntax @namespace)
         {
             var output = compilationUnit.AddMembers(@namespace);
             return output;
+        }
+
+        public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit, NamespaceDeclarationSyntax @namespace)
+        {
+            var annotatedNamespace = @namespace.Annotate(out var annotation);
+
+            var outputCompilationUnit = compilationUnit.AddMembers(annotatedNamespace);
+
+            var annotatedNamespaceAfterAddition = outputCompilationUnit.GetAnnotatedNode(annotation);
+
+            // Then set the leading separating indentation.
+            outputCompilationUnit = outputCompilationUnit.SetLeadingIndentationOfDescendent(
+                annotatedNamespaceAfterAddition,
+                Instances.Indentation.BlankLines_Two());
+
+            return outputCompilationUnit;
         }
 
         public static CompilationUnitSyntax AddNamespace(this CompilationUnitSyntax compilationUnit,
             string namespaceName,
             ModifierSynchronousWith<NamespaceDeclarationSyntax, NamespaceNameSet> namespaceModifier = default)
         {
-            var newNamespace = Instances.NamespaceGenerator.GetNamespace(Instances.Indentation.Namespace(), namespaceName);
+            var newNamespace = Instances.NamespaceGenerator.GetNewNamespace(Instances.Indentation.Namespace(), namespaceName);
 
             var namespaceNames = NamespaceNameSet.New();
 
@@ -49,7 +65,7 @@ namespace System
             var namespaceWasFound = compilationUnit.HasNamespace(namespaceName);
 
             var namespaceOrNewNamespaceIfNotFoud = namespaceWasFound.OrIfNotFound(
-                () => Instances.NamespaceGenerator.GetNamespace(Instances.Indentation.Namespace(), namespaceName));
+                () => Instances.NamespaceGenerator.GetNewNamespace(Instances.Indentation.Namespace(), namespaceName));
 
             return namespaceOrNewNamespaceIfNotFoud;
         }
@@ -66,7 +82,7 @@ namespace System
 
             var outputCompilationUnit = namespaceWasFound
                 ? compilationUnit.ReplaceNode(@namespace, modifiedNamespace)
-                : compilationUnit.AddNamespace(modifiedNamespace)
+                : compilationUnit.AddNamespaceWithoutLeadingSeparation(modifiedNamespace)
                 ;
 
             return outputCompilationUnit;
