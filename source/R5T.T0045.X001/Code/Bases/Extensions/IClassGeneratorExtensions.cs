@@ -44,7 +44,19 @@ namespace System
         public static ClassDeclarationSyntax GetClassFromText2(this IClassGenerator _,
             string text)
         {
-            var output = _.GetClassFromText_Trim(text);
+            var output = _.GetClassFromText_Trim(text)
+                .EnsureHasBraces()
+                ;
+
+            return output;
+        }
+
+        public static ClassDeclarationSyntax GetClass(this IClassGenerator _,
+            string className)
+        {
+            var text = $"class {className}";
+
+            var output = _.GetClassFromText2(text);
             return output;
         }
 
@@ -145,10 +157,7 @@ namespace System
         {
             var text = $"public static class {className}";
 
-            var output = _.GetClassFromText2(text)
-                .EnsureHasBraces()
-                ;
-
+            var output = _.GetClassFromText2(text);
             return output;
         }
 
