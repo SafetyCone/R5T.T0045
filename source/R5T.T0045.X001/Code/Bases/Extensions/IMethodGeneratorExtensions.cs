@@ -103,7 +103,7 @@ namespace System
         {
             var output = _.GetMethodDeclarationFromText_TrimAndWithStandardBraceTrivia(text)
                 .MoveDescendantTrailingTriviaToLeadingTrivia()
-                .IndentBlock(indentation)
+                .IndentBlock_Old(indentation)
                 ;
 
             return output;
@@ -148,7 +148,7 @@ namespace System
             SyntaxTriviaList indentation)
         {
             var output = _.GetConstructorDeclarationFromText_TrimAndWithStandardBraceTrivia(text)
-                .IndentBlock(indentation);
+                .IndentBlock_Old(indentation);
 
             return output;
         }
@@ -198,7 +198,7 @@ namespace System
             SyntaxTriviaList indentation)
         {
             var output = Instances.SyntaxFactory.ParseConstructorDeclaration(text)
-                .Indent(indentation)
+                .IndentStartLine(indentation)
                 ;
 
             return output;

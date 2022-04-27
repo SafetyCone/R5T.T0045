@@ -40,7 +40,7 @@ namespace System
             var text = $"{typeName} {name}";
 
             var output = Instances.SyntaxFactory.ParseParameter(text)
-                .Indent(indentation);
+                .IndentStartLine(indentation);
 
             return output;
         }

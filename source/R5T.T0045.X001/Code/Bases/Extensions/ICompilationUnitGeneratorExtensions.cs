@@ -14,6 +14,13 @@ namespace System
 {
     public static class ICompilationUnitGeneratorExtensions
     {
+        public static Task<CompilationUnitSyntax> GetNewCompilationUnit(this ICompilationUnitGenerator _)
+        {
+            var output = Instances.SyntaxFactory.CompilationUnit();
+
+            return Task.FromResult(output);
+        }
+
         public static CompilationUnitSyntax NewCompilationUnit(this ICompilationUnitGenerator _)
         {
             var output = Instances.SyntaxFactory.CompilationUnit();

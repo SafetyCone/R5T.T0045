@@ -19,20 +19,30 @@ namespace System
         }
 
         /// <summary>
-        /// Quality-of-life overload for <see cref="LoadCompilationUnit(ICodeFile, string)"/>.
+        /// Quality-of-life overload for <see cref="Load_AndStandardizeToLeadingTrivia(ICompilationUnitOperator, string)"/>.
         /// </summary>
         public static Task<CompilationUnitSyntax> Load(this ICompilationUnitOperator _,
+            string filePath)
+        {
+            var output = _.Load_AndStandardizeToLeadingTrivia(filePath);
+            return output;
+        }
+
+        public static Task<CompilationUnitSyntax> Load_WithoutStandardizingToLeadingTrivia(this ICompilationUnitOperator _,
             string filePath)
         {
             return _.LoadCompilationUnit(filePath);
         }
 
-        public static async Task<CompilationUnitSyntax> LoadAndStandardizeToLeadingTrivia(this ICompilationUnitOperator _,
+        public static async Task<CompilationUnitSyntax> Load_AndStandardizeToLeadingTrivia(this ICompilationUnitOperator _,
             string filePath)
         {
             var compilationUnit = await _.LoadCompilationUnit(filePath);
 
-            var outputCompilationUnit = compilationUnit.MoveDescendantTrailingTriviaToLeadingTrivia();
+            var outputCompilationUnit = compilationUnit
+                .MoveDescendantTrailingTriviaToLeadingTrivia()
+                ;
+
             return outputCompilationUnit;
         }
 
@@ -64,7 +74,7 @@ namespace System
             var codeFileExists = Instances.FileSystemOperator.FileExists(codeFilePath);
 
             var inputCompilationUnit = codeFileExists
-                ? await _.LoadAndStandardizeToLeadingTrivia(codeFilePath)
+                ? await _.Load_AndStandardizeToLeadingTrivia(codeFilePath)
                 : await initialCompilationUnitModifierAction(
                     Instances.CompilationUnitGenerator.NewCompilationUnit())
                 ;

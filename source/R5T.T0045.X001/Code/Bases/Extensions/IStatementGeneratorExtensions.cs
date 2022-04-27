@@ -26,7 +26,7 @@ namespace System
             SyntaxTriviaList indentation)
         {
             var output = _.GetStatementFromText_Trim(text)
-                .IndentBlock(indentation)
+                .IndentBlock_Old(indentation)
                 ;
 
             return output;
@@ -47,7 +47,7 @@ namespace System
             SyntaxTriviaList indentation)
         {
             var output = _.GetStatementFromText_Trim(text)
-                .IndentBlock(indentation)
+                .IndentBlock_Old(indentation)
                 ;
 
             return output;

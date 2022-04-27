@@ -20,3 +20,34 @@ namespace System
         }
     }
 }
+
+
+namespace N8
+{
+    public static class ClassDeclarationSyntaxExtensions
+    {
+        /// <summary>
+        /// Post-creation actions that should be run on all created class declarations, as of 20220420.
+        /// </summary>
+        public static ClassDeclarationSyntax PostCreationActions_20220420(this ClassDeclarationSyntax classDeclaration)
+        {
+            classDeclaration = classDeclaration
+                .PostCreationActions_SyntaxNode_Latest()
+                .EnsureHasBraces()
+                ;
+
+            return classDeclaration;
+        }
+
+        /// <summary>
+        /// Latest post-creation actions that should be run on all created class declarations.
+        /// Chooses <see cref="PostCreationActions_20220420(ClassDeclarationSyntax)"/>.
+        /// </summary>
+        public static ClassDeclarationSyntax PostCreationActions_Latest(this ClassDeclarationSyntax classDeclaration)
+        {
+            var output = classDeclaration.PostCreationActions_20220420();
+            return output;
+        }
+    }
+}
+
