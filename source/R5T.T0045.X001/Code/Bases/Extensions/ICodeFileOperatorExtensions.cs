@@ -34,7 +34,7 @@ namespace System
         }
 
         /// <summary>
-        /// Quality-of-life overload for <see cref="LoadCompilationUnit(ICodeFile, string)"/>.
+        /// Quality-of-life overload for <see cref="LoadCompilationUnit(ICodeFileOperator, string)"/>.
         /// </summary>
         public static Task<CompilationUnitSyntax> Load(this ICodeFileOperator _,
             string filePath)

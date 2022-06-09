@@ -39,5 +39,13 @@ namespace System
             var output = Instances.SyntaxFactory.ParsePropertyDeclaration(text);
             return output;
         }
+
+        public static PropertyDeclarationSyntax GetProperty(this IPropertyGenerator _,
+            string typeName,
+            string propertyName)
+        {
+            var output = Instances.SyntaxFactory.Property(propertyName, typeName);
+            return output;
+        }
     }
 }
